@@ -1,0 +1,30 @@
+---
+- name: "Test: role user_management"
+  hosts: localhost
+  remote_user: root
+  become: true
+  vars:
+    user_management_users:
+      # Productive extended example
+      - name: john.doe
+        state: present
+        home_create: true
+        absolute_home_path: "{{ user_management_default_home_root }}/john.doe"
+        # primary_group: "{{ user_management_default_primary_group }}"
+        secondary_groups: ""
+        groups_append: true
+        shell: /bin/bash
+
+      # Productive minimal example
+      - name: jane.doe
+        state: present
+        primary_group: "{{ user_management_default_primary_group }}"
+        secondary_groups: "{{ user_management_default_secondary_groups }}"
+
+      # Productive absent example
+      - name: james.doe
+        state: absent
+        userdel_remove: true
+        userdel_force: true
+  roles:
+    - user_management
