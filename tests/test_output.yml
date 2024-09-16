@@ -1,3 +1,4 @@
+---
 - name: "Get user {{ item.name }} from passwd file"
   block:
     - name: "Get user {{ item.name }} from passwd file"
