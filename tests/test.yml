@@ -1,0 +1,15 @@
+- name: "Test: role user-management" # noqa role-name[path]
+  hosts: localhost
+  become: true
+  vars:
+    user_management_users:
+      - name: john.doe
+        state: present
+  roles:
+    - '../../user-management'
+  tasks:
+    - name: Include output tasks
+      loop: "{{ user_management_users }}"
+      when: user_management_users
+      ansible.builtin.include_tasks:
+        file: test_output.yml

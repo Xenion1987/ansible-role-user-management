@@ -1,0 +1,9 @@
+stages:
+  - test
+
+test:
+  stage: test
+  image: python:slim-bookworm
+  script:
+    - python -m pip install 'ansible>=9.0.0,<=10.0.0'
+    - ansible-playbook tests/test.yml

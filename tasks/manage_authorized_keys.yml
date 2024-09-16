@@ -1,0 +1,15 @@
+---
+- name: Manage authorized key for {{ item.name }}
+  ansible.posix.authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    key_options: |-
+      {%- set from_options_global = user_management_default_ssh_from | default(['*']) -%}
+      {%- set from_options_custom_host = custom_ssh_from | default([]) -%}
+      {%- set from_options_custom_item = item.custom_ssh_from | default([]) -%}
+      {%- set from_options_custom = from_options_custom_host + from_options_custom_item | default([]) -%}
+      {%- set from_options = from_options_global + from_options_custom | default([]) -%}
+      from="{% if from_options %}{{ from_options | join(',') }}{% else %}*{% endif %}"
+    key: "{{ item.ssh_public_key | default('') }}"
+    exclusive: true
+  when: item.state == 'present'

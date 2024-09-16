@@ -1,2 +1,73 @@
-# user-management
-Ansible role for managing Linux users, their SSH authorized_keys and sudoers files
+# Role: `user_management`
+
+Manage users and their SSH public key enrollment via Ansible.
+
+- [Role: `user_management`](#role-user_management)
+  - [Requirements](#requirements)
+  - [Role Variables](#role-variables)
+    - [`../playbooks/host_vars/*`](#playbookshost_vars)
+  - [Dependencies](#dependencies)
+  - [Example Playbook](#example-playbook)
+
+## Requirements
+
+- Ansible-Core >=2.9
+
+## Role Variables
+
+
+| Name                                       | Type   | Default                         | Description                                                                                                                                                                                                                             |
+| ------------------------------------------ | ------ | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `user_management_default_primary_group`    | `str`  | `null`                          | Custom primary user group                                                                                                                                                                                                               |
+| `user_management_default_secondary_groups` | `list` | `[]`                            | Custom secondary user groups                                                                                                                                                                                                            |
+| `user_management_default_sudo_mode`        | `str`  |                                 | Installs `sudo` if set to `sudo`                                                                                                                                                                                                        |
+| `user_management_default_shell`            | `str`  |                                 | Default user's shell                                                                                                                                                                                                                    |
+| `user_management_default_home_root`        | `str`  |                                 | Custom `$HOME` root path                                                                                                                                                                                                                |
+| `user_management_manage_sudoers_groups`    | `bool` | `false`                         | Enable or disable sudoers management for groups                                                                                                                                                                                         |
+| `user_management_manage_sudoers_groups`    | `list` | `[]`                            | A list of sudoers configurations for groups                                                                                                                                                                                             |
+| `user_management_manage_sudoers_users`     | `bool` | `false`                         | Enable or disable sudoers management for users                                                                                                                                                                                          |
+| `user_management_manage_sudoers_users`     | `list` | `[]`                            | A list of sudoers configurations for users                                                                                                                                                                                              |
+| `user_management_default_ssh_from`         | `list` | `[]`                            | Default, global `from=""` value added to `authorized_keys` for each user having `{{user_management_users.ssh_public_key}}` defined                                                                                                      |
+| `user_management_users`                    | `list` |                                 | List of users to be managed                                                                                                                                                                                                             |
+| `user_management_users.absolute_home_path` | `str`  |                                 | Optionally set the user's home directory.                                                                                                                                                                                               |
+| `user_management_users.custom_ssh_from`    | `list` |                                 | `from=""` value added to `authorized_keys` if user has `{{user_management_users.ssh_public_key}}` defined. If `user_management_default_ssh_from` or `custom_ssh_from` is defined and not set to `'*'`, all values will be concatenated. |
+| `user_management_users.groups_append`      | `bool` | `true`                          | If `true`, add the user to the groups specified in groups. If `false`, user will only be added to the groups specified in `secondary_groups`, removing them from all other groups.                                                      |
+| `user_management_users.home_create`        | `bool` | `true`                          | Unless set to false, a home directory will be made for the user when the account is created or if the home directory does not exist.                                                                                                    |
+| `user_management_users.home_move`          | `bool` | `false`                         | If set to `true` when used with `home:` , attempt to move the user's old home directory to the specified directory if it isn't there already and the old home exists.                                                                   |
+| `user_management_users.name`               | `str`  |                                 | User's Linux login name.                                                                                                                                                                                                                |
+| `user_management_users.primary_group`      | `str`  | `user_management_users.name`    | Optionally sets the user's primary group (takes a group name).                                                                                                                                                                          |
+| `user_management_users.state`              | `str`  |                                 | User's state (`present` or `absent`).                                                                                                                                                                                                   |
+| `user_management_users.secondary_groups`   | `list` | `user_management_users.name`    | List of groups user will be added to. By default, the user is removed from all other groups. Configure `groups_append` to modify this. When set to an empty string `''`, the user is removed from all groups except the primary group.  |
+| `user_management_users.shell`              | `str`  | `user_management_default_shell` | Optionally set the user's shell.                                                                                                                                                                                                        |
+| `user_management_users.userdel_force`      | `bool` | `false`                         | This only affects `state=absent`, it forces removal of the user and associated directories on supported platforms.                                                                                                                      |
+| `user_management_users.userdel_remove`     | `bool` | `false`                         | This only affects 'state=absent', it attempts to remove directories associated with the user.                                                                                                                                           |
+
+### `../playbooks/host_vars/*`
+
+| Name              | Type   | Default | Description                                                                                                                                                                                                                                                            |
+| ----------------- | ------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `custom_ssh_from` | `list` |         | `from=""` value added to `authorized_keys` for each user having `{{user_management_users.ssh_public_key}}` defined. If `user_management_default_ssh_from` or `user_management_users.custom_ssh_from` is defined and not set to `'*'`, all values will be concatenated. |
+
+## Dependencies
+
+```yaml
+collections:
+  - ansible.posix
+  - community.general
+dependencies: []
+```
+
+## Example Playbook
+
+```yaml
+---
+- name: Manage SSH user via Ansible
+  hosts: all
+  roles:
+    - role: user-management
+      vars:
+        user_management_users:
+          - name: john.doe
+            state: present
+        (...)
+```

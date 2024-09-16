@@ -1,0 +1,8 @@
+---
+- name: "Add '{{ item.name }}' to sudoers" # noqa: name[template]
+  community.general.sudoers:
+    name: "{{ item.name | default(omit) }}"
+    group: "{{ item.group | default(omit) }}"
+    commands: "{{ item.commands }}"
+    nopassword: "{{ item.nopassword | default(false) }}"
+    state: "{{ item.state }}"

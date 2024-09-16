@@ -1,0 +1,39 @@
+---
+
+#################################
+# Variables for 'manage_user.yml'
+#################################
+# user_management_default_primary_group: null
+# user_management_default_secondary_groups: []
+# user_management_users:
+#   - name: john.doe
+#     secondary_groups: "{{ user_management_default_secondary_groups }}"
+#     ssh_public_key: ssh-rsa AAAAB3NzaC1yc(...)LdcMYZ5io8bQ== john.doe@domain.de
+#     state: present
+
+#################################
+# Variables for 'manage_sudoers.yml'
+#################################
+# user_management_manage_sudoers_groups: true
+# user_management_sudoers_groups:
+#   - name: mygroupname
+#     group: mygroupname
+#     commands:
+#       - ALL
+#     nopassword: false
+#     state: present
+
+# user_management_manage_sudoers_users: true
+# user_management_sudoers_users:
+#   - name: john.doe
+#     user: john.doe
+#     commands:
+#       - ALL
+#     nopassword: false
+#     state: present
+
+#################################
+# Variables for 'manage_ssh_pubkeys.yml'
+#################################
+# user_management_default_ssh_from:
+#   - 127.0.0.1
