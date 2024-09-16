@@ -3,6 +3,7 @@
   ansible.posix.authorized_key:
     user: "{{ item.name }}"
     state: present
+    comment: Managed by Ansible-Role (https://github.com/Xenion1987/user-management)
     key_options: |-
       {%- set from_options_global = user_management_default_ssh_from | default(['*']) -%}
       {%- set from_options_custom_host = custom_ssh_from | default([]) -%}
