@@ -11,7 +11,7 @@ Manage users and their SSH public key enrollment via Ansible.
 
 ## Requirements
 
-- Ansible-Core >=2.9
+- Ansible-Core >=2.10
 
 ## Role Variables
 
