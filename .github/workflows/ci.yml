@@ -2,9 +2,13 @@ name: CI Pipeline
 
 on:
   push:
-  pull_request:
     branches:
       - main
+  pull_request:
+
+defaults:
+  run:
+    working-directory: "user-management"
 
 jobs:
   ansible-lint:
@@ -12,10 +16,16 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+        with:
+          path: "user-management"
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
 
       - name: Install pre-commit
         run: |
-          sudo apt update && sudo apt -y install git
           pip install pre-commit
 
       - name: Run pre-commit
@@ -26,6 +36,13 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+        with:
+          path: "user-management"
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
 
       - name: Install Ansible
         run: pip install 'ansible>=3.0.0'

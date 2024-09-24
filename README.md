@@ -11,6 +11,8 @@ Manage users and their SSH public key enrollment via Ansible.
     - [`sudoers` variables](#sudoers-variables)
   - [Dependencies](#dependencies)
   - [Example Playbook](#example-playbook)
+- [License](#license)
+- [Author](#author)
 
 ## Requirements
 
@@ -118,3 +120,11 @@ dependencies: []
             nopassword: true
             state: present
 ```
+
+# License
+
+MIT / BSD
+
+# Author
+
+This role was created in 2024 by [Xenion1987](https://github.com/Xenion1987)
