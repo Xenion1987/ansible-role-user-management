@@ -1,0 +1,36 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - "!main"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ansible-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Install pre-commit
+        run: |
+          sudo apt update && sudo apt -y install git
+          pip install pre-commit
+
+      - name: Run pre-commit
+        run: pre-commit run --all-files
+
+  ansible-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Install Ansible
+        run: pip install 'ansible>=3.0.0'
+
+      - name: Run Ansible Playbook
+        run: ansible-playbook tests/test.yml

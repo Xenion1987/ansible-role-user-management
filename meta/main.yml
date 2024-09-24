@@ -2,4 +2,29 @@
 collections:
   - ansible.posix
   - community.general
+
 dependencies: []
+
+galaxy_info:
+  role_name: "user-management"
+  author: "Xenion1987"
+  description: "Manage users and their SSH public key enrollment and sudoers files via Ansible"
+  company: "Marvin Moldenhauer | Access-InTech"
+  license: "license (BSD, MIT)"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: Debian
+      versions:
+        - all
+    - name: Rocky
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - authorized_keys
+    - linux
+    - ssh
+    - sudoers
+    - user
