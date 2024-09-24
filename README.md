@@ -1,8 +1,8 @@
-# Role: `ansible-role-user-management`
+# Role: `user-management`
 
 Manage users and their SSH public key enrollment via Ansible.
 
-- [Role: `ansible-role-user-management`](#role-ansible-role-user-management)
+- [Role: `user-management`](#role-user-management)
   - [Requirements](#requirements)
   - [Role Variables](#role-variables)
     - [User variables](#user-variables)
