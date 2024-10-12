@@ -2,40 +2,39 @@
 # tasks file for roles/user_management
 
 - name: Ensure 'sudo' is installed
+  when: user_management_default_sudo_mode
   ansible.builtin.package:
     name: sudo
     state: present
-  when: user_management_default_sudo_mode == "sudo"
 
 - name: "Ensure custom primary group is created"
+  when: user_management_default_primary_group is defined and user_management_default_primary_group
   ansible.builtin.group:
     name: "{{ user_management_default_primary_group }}"
     state: present
-  when: user_management_default_primary_group is defined and user_management_default_primary_group
 
 - name: Ensure custom secondary groups are created
+  loop: "{{ user_management_default_secondary_groups }}"
+  when: user_management_default_secondary_groups is defined and user_management_default_secondary_groups
   ansible.builtin.group:
     name: "{{ item }}"
     state: present
-  loop: "{{ user_management_default_secondary_groups }}"
-  when: user_management_default_secondary_groups is defined and user_management_default_secondary_groups
 
 - name: Ensure home directory exists
+  when: user_management_default_home_root is defined and user_management_default_home_root
   ansible.builtin.file:
     path: "{{ user_management_default_home_root }}"
     state: directory
     mode: "0755"
-  when: user_management_default_home_root is defined and user_management_default_home_root
 
 - name: Include tasks 'manage_user'
+  loop: "{{ user_management_users }}"
   ansible.builtin.include_tasks:
     file: manage_user.yml
-  loop: "{{ user_management_users }}"
-
 - name: Include tasks 'manage_authorized_keys'
+  loop: "{{ user_management_users }}"
   ansible.builtin.include_tasks:
     file: manage_authorized_keys.yml
-  loop: "{{ user_management_users }}"
 
 - name: Include tasks 'manage_sudoers.yml' for groups
   loop: "{{ user_management_sudoers_groups }}"

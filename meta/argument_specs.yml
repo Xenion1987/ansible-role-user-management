@@ -1,0 +1,321 @@
+---
+argument_specs:
+  main:
+    short_description: Main entry point for the user-management role
+    options:
+      user_management_default_home_root:
+        default: "/home"
+        description:
+          - Custom default `$HOME` root path
+        required: false
+        type: str
+      user_management_default_primary_group:
+        description:
+          - Custom default primary user group
+        required: false
+        type: str
+      user_management_default_secondary_groups:
+        default: []
+        description:
+          - Custom default secondary user groups
+        # elements: str
+        required: false
+        type: list
+      user_management_default_shell:
+        default: /bin/bash
+        description:
+          - Default user's shell
+        required: false
+        type: str
+      user_management_default_ssh_from:
+        default: ["*"]
+        description:
+          - Default, global `from=""` value added to `authorized_keys` for each
+          - user having `user_management_users.ssh_public_key` defined
+        # elements: str
+        required: false
+        type: list
+      user_management_default_sudo_mode:
+        choices:
+          - false
+          - true
+        default: true
+        description:
+          - Installs `sudo` if set to `true`
+        required: false
+        type: bool
+      user_management_manage_sudoers_groups:
+        choices:
+          - false
+          - true
+        default: false
+        description:
+          - Enable or disable sudoers management for groups
+        required: false
+        type: bool
+      user_management_manage_sudoers_users:
+        choices:
+          - false
+          - true
+        default: false
+        description:
+          - Enable or disable sudoers management for users
+        required: false
+        type: bool
+      user_management_sudoers_groups:
+        default: []
+        description:
+          - A list of sudoers configurations for groups
+        # elements: dict
+        required: false
+        type: list
+        options:
+          commands:
+            default: []
+            description:
+              - The commands allowed by the sudoers rule.
+              - Multiple can be added by passing a list of commands.
+              - Use `ALL` for all commands.
+            # elements: str
+            required: false
+            type: list
+          group:
+            description:
+              - The name of the group for the sudoers rule.
+              - This option cannot be used in conjunction with `user`.
+            required: false
+            type: str
+          name:
+            default: user_management_mygroupname
+            description:
+              - The name of the sudoers rule
+            required: true
+            type: str
+          nopassword:
+            choices:
+              - false
+              - true
+            default: false
+            description:
+              - Whether a password will be required to run the `sudo`'d command
+            required: false
+            type: bool
+          state:
+            choices:
+              - "absent"
+              - "present"
+            default: "present"
+            description:
+              - Whether the rule should exist or not
+            required: true
+            type: str
+      user_management_sudoers_users:
+        default: []
+        description:
+          - A list of sudoers configurations for users
+        # elements: dict
+        required: false
+        type: list
+        options:
+          commands:
+            default: []
+            description:
+              - The commands allowed by the sudoers rule.
+              - Multiple can be added by passing a list of commands.
+              - Use `ALL` for all commands.
+            # elements: str
+            required: false
+            type: list
+          name:
+            default: user_management_john.doe
+            description:
+              - The name of the sudoers rule
+            required: true
+            type: str
+          nopassword:
+            choices:
+              - false
+              - true
+            default: false
+            description:
+              - Whether a password will be required to run the `sudo`'d command
+            required: false
+            type: bool
+          state:
+            choices:
+              - "absent"
+              - "present"
+            default: "present"
+            description:
+              - Whether the rule should exist or not
+            required: true
+            type: str
+          user:
+            description:
+              - The name of the user for the sudoers rule.
+              - This option cannot be used in conjunction with `group`.
+            required: false
+            type: str
+      user_management_users:
+        default: []
+        description:
+          - List of users to be managed
+        # elements: dict
+        required: false
+        type: list
+        options:
+          absolute_home_path:
+            description:
+              - Custom `$HOME` root path
+            required: false
+            type: str
+          custom_ssh_from:
+            default: []
+            description:
+              - '`from=""` value added to `authorized_keys` if user'
+              - has `user_management_users.ssh_public_key` defined.
+              - If `user_management_default_ssh_from` or `custom_ssh_from` is
+              - defined and not set to `'*'`, all values will be concatenated.
+            # elements: str
+            required: false
+            type: list
+          groups_append:
+            choices:
+              - false
+              - true
+            default: true
+            description:
+              - If `true`, add the user to the groups specified in groups.
+              - If `false`, user will only be added to the groups specified in
+              - "`secondary_groups`, removing them from all other groups."
+            required: false
+            type: bool
+          home_create:
+            choices:
+              - false
+              - true
+            default: true
+            description:
+              - Unless set to false, a home directory will be created for the
+              - user when the account is created or if the home directory does
+              - not exist.
+            required: false
+            type: bool
+          home_move:
+            choices:
+              - false
+              - true
+            default: false
+            description:
+              - If set to `true` when used with `home:`, attempt to move
+              - the user's old home directory to the specified directory
+              - if it isn't already there and the old home exists.
+            required: false
+            type: bool
+          name:
+            default: user_management_john.doe
+            description:
+              - User's Linux login name
+            required: true
+            type: str
+          primary_group:
+            description:
+              - Optionally sets the user's primary group (takes a group name).
+            required: false
+            type: str
+          secondary_groups:
+            default: []
+            description:
+              - List of groups user will be added to.
+              - By default, the user is removed from all other groups.
+              - Configure `groups_append` to modify this.
+              - When set to an empty string `''`, the user is removed from all
+              - groups except the primary group.
+            # elements: str
+            required: false
+            type: list
+          shell:
+            default: user_management_default_shell
+            description:
+              - Overwrites 'user_management_default_shell'
+            required: false
+            type: str
+          ssh_public_key:
+            description:
+              - The SSH public key(s), as a string or (since Ansible 1.9) url
+            required: false
+            type: str
+          state:
+            choices:
+              - "absent"
+              - "present"
+            default: "present"
+            description:
+              - Whether the account should exist or not,
+              - taking action if the state is different from what is stated.
+            required: true
+            type: str
+          userdel_force:
+            default: false
+            choices:
+              - false
+              - true
+            description:
+              - This only affects `state=absent`.
+              - It forces removal of the user and associated directories
+              - on supported platforms.
+            required: false
+            type: bool
+          userdel_remove:
+            choices:
+              - false
+              - true
+            default: false
+            description:
+              - This only affects `state=absent`.
+              - it attempts to remove directories associated with the user.
+            required: false
+            type: bool
+
+  manage_authorized_keys:
+    short_description: Entry point for included tasks for authorized_keys
+    options:
+      item:
+        default: []
+        description:
+          - List of users to be managed
+        # elements: dict
+        required: false
+        type: list
+        options:
+          custom_ssh_from:
+            default: []
+            description:
+              - '`from=""` value added to `authorized_keys` if user'
+              - has `user_management_users.ssh_public_key` defined.
+              - If `user_management_default_ssh_from` or `custom_ssh_from` is
+              - defined and not set to `'*'`, all values will be concatenated.
+            # elements: str
+            required: false
+            type: list
+          name:
+            default: user_management_john.doe
+            description:
+              - User's Linux login name
+            required: true
+            type: str
+          ssh_public_key:
+            description:
+              - The SSH public key(s), as a string or (since Ansible 1.9) url
+            required: false
+            type: str
+          state:
+            choices:
+              - "absent"
+              - "present"
+            default: "present"
+            description:
+              - Whether the account should exist or not,
+              - taking action if the state is different from what is stated.
+            required: true
+            type: str
