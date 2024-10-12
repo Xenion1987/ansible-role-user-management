@@ -1,14 +1,42 @@
 ---
 user_management_default_home_root: /home
 user_management_default_shell: /bin/bash
-user_management_default_sudo_mode: sudo
+user_management_default_sudo_mode: true
 
-user_management_default_ssh_from: []
+user_management_default_primary_group: null
+user_management_default_secondary_groups: []
 
-user_management_users: []
+user_management_default_ssh_from:
+  - "*"
+
+user_management_users:
+  - name: user_management_john.doe
+    absolute_home_path: null
+    custom_ssh_from: []
+    groups_append: true
+    home_create: true
+    home_move: false
+    primary_group: null
+    secondary_groups: []
+    ssh_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDW6k6qtP1YfJ7eOSN1zDf8C6lTJuV+ethOvEJwTKJrGoQrKKukVfedjUL+e7XMszVT57iiV8rC+syZsJ6wkwJR2ahOUlU9hACbRc+X5mmVROLKlO+NaxrbMzsTJXeCJK6Oo+05f2kSPqGfjV3CZSq4Xv5mUMhaDkGUg/rqG5BIdqFDwirqxbUbPOIYeosLT1tbgxHvOTwsUqulEZS5h8mOt1Hahi1ZrfUOyharJvpc5rzYk/hq1zwTXTNtArOLCaSbvY+o61BAsnQBzg6Z+Elyrox53kWW8c0MuG0iPfehqW20eE9xZVBQfwutLmMHMNeUD2UwLDfxnoVXIlgn5T4Z4F2uMyKWKl9IsoIuguizX98SuASEXg4wsAEf2MSCxwk7AGO3yCgqRsnm7sIEEdvxUIewcuZn1ZtN0c3UjcsqRnoXgBOXpynsRStdZTPTM+o1LGma+Wp8FkMH1ZnuQ+BrCQ1ENKcS4oeTcG91Ud9Yiu/qfWVU64RrYpz0JvHWoApdzM73Xro2Sz9BuQH5uSCIya8PNEqGdH1GRDxbDkv41+scWwq/5i5CSlWmNogU377tPld9hqJJA//eniErgKO/QSJKmaDDzFe+eQh6F2Kn/NUVKqbPHbDlkYAZGT37L5iCOG1By55wwnemz40GS2Wo+a4nViDJGhuFty+4yR8fWQ== ansible-playground_20231122_194549
+    state: absent
+    userdel_force: false
+    userdel_remove: false
 
 user_management_manage_sudoers_groups: false
-user_management_sudoers_groups: []
+user_management_sudoers_groups:
+  - name: user_management_mygroupname
+    group: user_management_mygroupname
+    commands:
+      - ALL
+    nopassword: false
+    state: absent
 
 user_management_manage_sudoers_users: false
-user_management_sudoers_users: []
+user_management_sudoers_users:
+  - name: user_management_john.doe
+    user: user_management_john.doe
+    commands:
+      - ALL
+    nopassword: false
+    state: absent

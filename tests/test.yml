@@ -1,5 +1,5 @@
 ---
-- name: "Test: role user-management" # noqa role-name[path]
+- name: "Test: role user-management"
   hosts: localhost
   become: true
   vars:
@@ -26,7 +26,7 @@
         state: present
 
   roles:
-    - "../../user-management"
+    - "../../user-management" # noqa: syntax-check[specific]
   tasks:
     - name: Include output tasks for user management
       loop: "{{ user_management_users }}"

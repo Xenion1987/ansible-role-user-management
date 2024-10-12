@@ -1,0 +1,43 @@
+# Ansible role: {{ meta.galaxy_info.role_name }}
+
+## Requirements
+
+{% if meta.collections -%}
+- Collections:
+{%- for collection in meta.collections %}
+  - {{ collection }}
+{%- endfor %}
+{% endif -%}
+{% if meta.galaxy_info.min_ansible_version -%}
+- Min. Ansible version: {{ meta.galaxy_info.min_ansible_version }}
+{%- endif %}
+
+## Role Variables
+
+{{ arg_specs }}
+
+## Dependencies
+
+{% if meta.dependencies -%}
+{{ meta.dependencies }}
+{%- else -%}
+None
+{%- endif %}
+
+## Example Playbook
+
+```yaml
+- name: "Play | {{ meta.galaxy_info.role_name }}"
+  hosts: all
+  roles:
+    - role: {{ meta.galaxy_info.role_name }}
+```
+
+## License
+
+{{ meta.galaxy_info.license }}
+
+## Author Information
+
+{{ meta.galaxy_info.author }}{% if meta.galaxy_info.company %} @ {{ meta.galaxy_info.company }}{% endif %}
+
