@@ -33,7 +33,7 @@ def generate_argspecs_variables(specs):
     """
     section_variables = ""
     for k, v in specs.items():
-        section_variables += f"### {k}\n"
+        section_variables += f"{k}\n---\n"
         section_variables += "\n"
         section_variables += "| Variable | Type | Required | Choices | Default | Description |\n"
         section_variables += "| --- | --- | --- | --- | --- | --- |\n"
@@ -43,11 +43,24 @@ def generate_argspecs_variables(specs):
                     md_line = f"| `{o}` "
                     for ok in ['type','required','choices','default','description']:
                         if ok in ov:
-                            if ok == 'description':
+                            if ok == 'type':
+                                md_line += f"| `{ov[ok]}` ".lower()
+                            elif ok == 'choices':
+                                choices = []
+                                for choice in ov[ok]:
+                                    if type(choice) == bool:
+                                        choices.append(str(choice).lower())
+                                    else:
+                                        choices.append(str(choice))
+                                md_line += f"| `{'`, `'.join(choices)}` "
+                            elif ok == 'description':
                                 description = ' <br />'.join(ov[ok])
                                 md_line += f"| {description} "
                             else:
-                                md_line += f"| `{ov[ok]}` "
+                                if type(ov[ok]) == bool:
+                                    md_line += f"| `{ov[ok]}` ".lower()
+                                else:
+                                    md_line += f"| `{ov[ok]}` "
                         else:
                             md_line += f"| "
                     section_variables += f"{md_line}|\n"
@@ -56,11 +69,24 @@ def generate_argspecs_variables(specs):
                             md_line = f"| `{o}.{oo}` "
                             for ok in ['type','required','choices','default','description']:
                                 if ok in oov:
-                                    if ok == 'description':
+                                    if ok == 'type':
+                                        md_line += f"| `{oov[ok]}` ".lower()
+                                    elif ok == 'choices':
+                                        choices = []
+                                        for choice in oov[ok]:
+                                            if type(choice) == bool:
+                                                choices.append(str(choice).lower())
+                                            else:
+                                                choices.append(str(choice))
+                                        md_line += f"| `{'`, `'.join(choices)}` "
+                                    elif ok == 'description':
                                         description = ' <br />'.join(oov[ok])
                                         md_line += f"| {description} "
                                     else:
-                                        md_line += f"| `{oov[ok]}` "
+                                        if type(oov[ok]) == bool:
+                                            md_line += f"| `{oov[ok]}` ".lower()
+                                        else:
+                                            md_line += f"| `{oov[ok]}` "
                                 else:
                                     md_line += f"| "
                             section_variables += f"{md_line}|\n"
