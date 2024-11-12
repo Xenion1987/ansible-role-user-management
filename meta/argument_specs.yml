@@ -31,7 +31,7 @@ argument_specs:
         default: ["*"]
         description:
           - Default, global `from=""` value added to `authorized_keys` for each
-          - user having `user_management_users.ssh_public_key` defined
+          - user having `user_management_users.ssh_public_keys` defined
         # elements: str
         required: false
         type: list
@@ -173,7 +173,7 @@ argument_specs:
             default: []
             description:
               - '`from=""` value added to `authorized_keys` if user'
-              - has `user_management_users.ssh_public_key` defined.
+              - has `user_management_users.ssh_public_keys` defined.
               - If `user_management_default_ssh_from` or `custom_ssh_from` is
               - defined and not set to `'*'`, all values will be concatenated.
             # elements: str
@@ -240,11 +240,12 @@ argument_specs:
               - Overwrites 'user_management_default_shell'
             required: false
             type: str
-          ssh_public_key:
+          ssh_public_keys:
+            default: []
             description:
-              - The SSH public key(s), as a string or (since Ansible 1.9) url
+              - The SSH public key(s), as a list or (since Ansible 1.9) url
             required: false
-            type: str
+            type: list
           state:
             choices:
               - "absent"
@@ -292,7 +293,7 @@ argument_specs:
             default: []
             description:
               - '`from=""` value added to `authorized_keys` if user'
-              - has `user_management_users.ssh_public_key` defined.
+              - has `user_management_users.ssh_public_keys` defined.
               - If `user_management_default_ssh_from` or `custom_ssh_from` is
               - defined and not set to `'*'`, all values will be concatenated.
             # elements: str
@@ -304,11 +305,11 @@ argument_specs:
               - User's Linux login name
             required: true
             type: str
-          ssh_public_key:
+          ssh_public_keys:
             description:
-              - The SSH public key(s), as a string or (since Ansible 1.9) url
+              - A list of the SSH public key(s), as a string or (since Ansible 1.9) url
             required: false
-            type: str
+            type: list
           state:
             choices:
               - "absent"
