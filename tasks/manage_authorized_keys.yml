@@ -1,17 +1,19 @@
 ---
-- name: Manage authorized key for {{ item.name }}
+- name: Ensure {{ item.name }}'s '.ssh' directory exists
+  ansible.builtin.file:
+    state: directory
+    path: "{{ item.absolute_home_path }}/.ssh"
+    mode: "0700"
+    owner: "{{ item.name }}"
+    group: "{{ item.primary_group if item.primary_group is defined and item.primary_group else item.name }}"
+
+- name: Manage authorized key(s) for {{ item.name }}
   when:
     - item.state == "present"
-    - item.ssh_public_key is defined
-  ansible.posix.authorized_key:
-    exclusive: true
-    key: "{{ item.ssh_public_key | default('') }}"
-    key_options: |-
-      {%- set from_options_global = user_management_default_ssh_from -%}
-      {%- set from_options_custom_host = host_vars_ssh_from | default([]) -%}
-      {%- set from_options_custom_item = item.custom_ssh_from | default([]) -%}
-      {%- set from_options_custom = from_options_custom_host + from_options_custom_item | default([]) -%}
-      {%- set from_options = from_options_global + from_options_custom | default([]) -%}
-      from="{% if from_options %}{{ from_options | join(',') }}{% else %}*{% endif %}"
-    state: present
-    user: "{{ item.name }}"
+    - item.ssh_public_keys is defined
+  ansible.builtin.template:
+    src: authorized_keys.j2
+    dest: "{{ item.absolute_home_path }}/.ssh/authorized_keys"
+    mode: "0600"
+    owner: "{{ item.name }}"
+    group: "{{ item.primary_group if item.primary_group is defined and item.primary_group else item.name }}"
