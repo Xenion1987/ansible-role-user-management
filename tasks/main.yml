@@ -7,30 +7,36 @@
     name: sudo
     state: present
 
-- name: "Ensure custom primary group is created"
+- name: "Ensure default primary group is created"
   when: user_management_default_primary_group is defined and user_management_default_primary_group
   ansible.builtin.group:
     name: "{{ user_management_default_primary_group }}"
     state: present
 
-- name: Ensure custom secondary groups are created
+- name: Ensure default secondary groups are created
   loop: "{{ user_management_default_secondary_groups }}"
   when: user_management_default_secondary_groups is defined and user_management_default_secondary_groups
   ansible.builtin.group:
     name: "{{ item }}"
     state: present
 
-- name: Ensure home directory exists
+- name: Ensure default home root directory exists
   when: user_management_default_home_root is defined and user_management_default_home_root
   ansible.builtin.file:
     path: "{{ user_management_default_home_root }}"
     state: directory
     mode: "0755"
 
+- name: Include tasks 'manage_user_groups'
+  loop: "{{ user_management_users }}"
+  ansible.builtin.include_tasks:
+    file: manage_user_groups.yml
+
 - name: Include tasks 'manage_user'
   loop: "{{ user_management_users }}"
   ansible.builtin.include_tasks:
     file: manage_user.yml
+
 - name: Include tasks 'manage_authorized_keys'
   loop: "{{ user_management_users }}"
   ansible.builtin.include_tasks:
