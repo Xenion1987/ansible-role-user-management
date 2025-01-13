@@ -21,6 +21,17 @@ argument_specs:
         # elements: str
         required: false
         type: list
+      user_management_default_secondary_groups_append:
+        choices:
+          - false
+          - true
+        default: false
+        description:
+          - If `true`, add the user to the groups specified in `groups`.
+          - If `false`, user will only be added to the groups specified in `groups`, removing them from all other groups.
+        # elements: str
+        required: false
+        type: bool
       user_management_default_shell:
         default: /bin/bash
         description:
