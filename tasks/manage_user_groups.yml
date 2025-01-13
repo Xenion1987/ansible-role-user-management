@@ -1,0 +1,15 @@
+---
+- name: "Ensure {{ item.name }}'s primary group is created"
+  when: item.primary_group is defined and item.primary_group
+  ansible.builtin.group:
+    name: "{{ item.primary_group }}"
+    state: present
+
+- name: Ensure {{ item.name }}'s secondary groups are created
+  loop: "{{ item.secondary_groups }}"
+  loop_control:
+    loop_var: group_item
+  when: item.secondary_groups is defined and item.secondary_groups
+  ansible.builtin.group:
+    name: "{{ group_item }}"
+    state: present

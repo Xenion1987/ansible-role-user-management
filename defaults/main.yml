@@ -5,6 +5,7 @@ user_management_default_sudo_mode: true
 
 user_management_default_primary_group: null
 user_management_default_secondary_groups: []
+user_management_default_secondary_groups_append: false
 
 user_management_default_ssh_from:
   - "*"

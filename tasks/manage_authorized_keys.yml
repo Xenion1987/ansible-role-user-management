@@ -1,16 +1,18 @@
 ---
 - name: "GET | {{ item.name }}'s home path"
+  when: item.state == "present"
   ansible.builtin.getent:
     database: passwd
     key: "{{ item.name }}"
 
 - name: "Ensure {{ item.name }}'s '.ssh' directory exists"
+  when: item.state == "present"
   ansible.builtin.file:
     state: directory
     path: "{{ ansible_facts.getent_passwd[item.name][4] }}/.ssh"
     mode: "0700"
-    owner: "{{ item.name }}"
-    group: "{{ item.primary_group if item.primary_group is defined and item.primary_group else item.name }}"
+    owner: "{{ ansible_facts.getent_passwd[item.name][1] }}"
+    group: "{{ ansible_facts.getent_passwd[item.name][2] }}"
 
 - name: "Manage authorized key(s) for {{ item.name }}"
   when:
@@ -20,5 +22,5 @@
     src: authorized_keys.j2
     dest: "{{ ansible_facts.getent_passwd[item.name][4] }}/.ssh/authorized_keys"
     mode: "0600"
-    owner: "{{ item.name }}"
-    group: "{{ item.primary_group if item.primary_group is defined and item.primary_group else item.name }}"
+    owner: "{{ ansible_facts.getent_passwd[item.name][1] }}"
+    group: "{{ ansible_facts.getent_passwd[item.name][2] }}"

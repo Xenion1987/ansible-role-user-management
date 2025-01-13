@@ -19,6 +19,7 @@ main
 | `user_management_default_home_root` | `str` | `false` | | `/home` | Custom default `$HOME` root path |
 | `user_management_default_primary_group` | `str` | `false` | | | Custom default primary user group |
 | `user_management_default_secondary_groups` | `list` | `false` | | `[]` | Custom default secondary user groups |
+| `user_management_default_secondary_groups_append` | `bool` | `false` | `false`, `true` | `false` | If `true`, add the user to the groups specified in `groups`. <br />If `false`, user will only be added to the groups specified in `groups`, removing them from all other groups. |
 | `user_management_default_shell` | `str` | `false` | | `/bin/bash` | Default user's shell |
 | `user_management_default_ssh_from` | `list` | `false` | | `['*']` | Default, global `from=""` value added to `authorized_keys` for each <br />user having `user_management_users.ssh_public_keys` defined |
 | `user_management_default_sudo_mode` | `bool` | `false` | `false`, `true` | `true` | Installs `sudo` if set to `true` |
