@@ -46,7 +46,7 @@ argument_specs:
         # elements: str
         required: false
         type: list
-      user_management_default_sudo_mode:
+      user_management_install_sudo:
         choices:
           - false
           - true
@@ -194,7 +194,7 @@ argument_specs:
             choices:
               - false
               - true
-            default: true
+            default: false
             description:
               - If `true`, add the user to the groups specified in groups.
               - If `false`, user will only be added to the groups specified in

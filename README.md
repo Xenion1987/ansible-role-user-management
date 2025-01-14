@@ -1,5 +1,7 @@
- Ansible role: user-management
+ Ansible role: user_management
 ===
+
+Manage users, their SSH public key enrollment and sudoers files via Ansible.
 
 Requirements
 ---
@@ -22,7 +24,7 @@ main
 | `user_management_default_secondary_groups_append` | `bool` | `false` | `false`, `true` | `false` | If `true`, add the user to the groups specified in `groups`. <br />If `false`, user will only be added to the groups specified in `groups`, removing them from all other groups. |
 | `user_management_default_shell` | `str` | `false` | | `/bin/bash` | Default user's shell |
 | `user_management_default_ssh_from` | `list` | `false` | | `['*']` | Default, global `from=""` value added to `authorized_keys` for each <br />user having `user_management_users.ssh_public_keys` defined |
-| `user_management_default_sudo_mode` | `bool` | `false` | `false`, `true` | `true` | Installs `sudo` if set to `true` |
+| `user_management_install_sudo` | `bool` | `false` | `false`, `true` | `true` | Installs `sudo` if set to `true` |
 | `user_management_manage_sudoers_groups` | `bool` | `false` | `false`, `true` | `false` | Enable or disable sudoers management for groups |
 | `user_management_manage_sudoers_users` | `bool` | `false` | `false`, `true` | `false` | Enable or disable sudoers management for users |
 | `user_management_sudoers_groups` | `list` | `false` | | `[]` | A list of sudoers configurations for groups |
@@ -40,7 +42,7 @@ main
 | `user_management_users` | `list` | `false` | | `[]` | List of users to be managed |
 | `user_management_users.absolute_home_path` | `str` | `false` | | | Custom `$HOME` root path |
 | `user_management_users.custom_ssh_from` | `list` | `false` | | `[]` | `from=""` value added to `authorized_keys` if user <br />has `user_management_users.ssh_public_keys` defined. <br />If `user_management_default_ssh_from` or `custom_ssh_from` is <br />defined and not set to `'*'`, all values will be concatenated. |
-| `user_management_users.groups_append` | `bool` | `false` | `false`, `true` | `true` | If `true`, add the user to the groups specified in groups. <br />If `false`, user will only be added to the groups specified in <br />`secondary_groups`, removing them from all other groups. |
+| `user_management_users.groups_append` | `bool` | `false` | `false`, `true` | `false` | If `true`, add the user to the groups specified in groups. <br />If `false`, user will only be added to the groups specified in <br />`secondary_groups`, removing them from all other groups. |
 | `user_management_users.home_create` | `bool` | `false` | `false`, `true` | `true` | Unless set to false, a home directory will be created for the <br />user when the account is created or if the home directory does <br />not exist. |
 | `user_management_users.home_move` | `bool` | `false` | `false`, `true` | `false` | If set to `true` when used with `home:`, attempt to move <br />the user's old home directory to the specified directory <br />if it isn't already there and the old home exists. |
 | `user_management_users.name` | `str` | `true` | | `user_management_john.doe` | User's Linux login name |
@@ -74,10 +76,10 @@ Example Playbook
 ---
 
 ```yaml
-- name: "Play | user-management"
+- name: "Play | user_management"
   hosts: all
   roles:
-    - role: user-management
+    - role: user_management
 ```
 
 License
