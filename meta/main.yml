@@ -5,9 +5,9 @@ collections:
 dependencies: []
 
 galaxy_info:
-  role_name: "user-management"
+  role_name: "user_management"
   author: "Xenion1987"
-  description: "Manage users and their SSH public key enrollment and sudoers files via Ansible"
+  description: "Manage users, their SSH public key enrollment and sudoers files via Ansible."
   company: "Access-InTech"
   license: "BSD, MIT"
   min_ansible_version: "2.11"

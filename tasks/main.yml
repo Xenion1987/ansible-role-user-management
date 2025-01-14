@@ -2,7 +2,7 @@
 # tasks file for roles/user_management
 
 - name: Ensure 'sudo' is installed
-  when: user_management_default_sudo_mode
+  when: user_management_install_sudo
   ansible.builtin.package:
     name: sudo
     state: present
@@ -44,12 +44,16 @@
 
 - name: Include tasks 'manage_sudoers.yml' for groups
   loop: "{{ user_management_sudoers_groups }}"
-  when: user_management_manage_sudoers_groups
+  when:
+    - user_management_install_sudo
+    - user_management_manage_sudoers_groups
   ansible.builtin.include_tasks:
     file: manage_sudoers.yml
 
 - name: Include tasks 'manage_sudoers.yml' for users
   loop: "{{ user_management_sudoers_users }}"
-  when: user_management_manage_sudoers_users
+  when:
+    - user_management_install_sudo
+    - user_management_manage_sudoers_users
   ansible.builtin.include_tasks:
     file: manage_sudoers.yml
