@@ -1,5 +1,5 @@
 ---
-- name: "Add '{{ item.name }}' to sudoers" # noqa: name[template]
+- name: "SUDOERS | Manage: {{ item.name }}"
   community.general.sudoers:
     commands: "{{ item.commands | default([]) }}"
     group: "{{ item.group | default(omit) }}"

@@ -1,11 +1,11 @@
 ---
-- name: "GET | {{ item.name }}'s home path"
+- name: "GETENT | {{ item.name }}"
   when: item.state == "present"
   ansible.builtin.getent:
     database: passwd
     key: "{{ item.name }}"
 
-- name: "Ensure {{ item.name }}'s '.ssh' directory exists"
+- name: "FILE | Ensure '.ssh' directory exists: {{ item.name }}"
   when: item.state == "present"
   ansible.builtin.file:
     state: directory
@@ -14,7 +14,7 @@
     owner: "{{ ansible_facts.getent_passwd[item.name][1] }}"
     group: "{{ ansible_facts.getent_passwd[item.name][2] }}"
 
-- name: "Manage authorized key(s) for {{ item.name }}"
+- name: "TEMPLATE | Manage authorized key(s): {{ item.name }}"
   when:
     - item.state == "present"
     - item.ssh_public_keys is defined
