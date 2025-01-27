@@ -1,48 +1,48 @@
 ---
 # tasks file for roles/user_management
 
-- name: Ensure 'sudo' is installed
+- name: "PACKAGE | sudo"
   when: user_management_install_sudo
   ansible.builtin.package:
     name: sudo
     state: present
 
-- name: "Ensure default primary group is created"
+- name: "GROUP | Ensure default primary group is created"
   when: user_management_default_primary_group is defined and user_management_default_primary_group
   ansible.builtin.group:
     name: "{{ user_management_default_primary_group }}"
     state: present
 
-- name: Ensure default secondary groups are created
+- name: GROUP | Ensure default secondary groups are created
   loop: "{{ user_management_default_secondary_groups }}"
   when: user_management_default_secondary_groups is defined and user_management_default_secondary_groups
   ansible.builtin.group:
     name: "{{ item }}"
     state: present
 
-- name: Ensure default home root directory exists
+- name: FILE | Ensure default home root directory exists
   when: user_management_default_home_root is defined and user_management_default_home_root
   ansible.builtin.file:
     path: "{{ user_management_default_home_root }}"
     state: directory
     mode: "0755"
 
-- name: Include tasks 'manage_user_groups'
+- name: INCLUDE TASKS | 'manage_user_groups'
   loop: "{{ user_management_users }}"
   ansible.builtin.include_tasks:
     file: manage_user_groups.yml
 
-- name: Include tasks 'manage_user'
+- name: INCLUDE TASKS | 'manage_user'
   loop: "{{ user_management_users }}"
   ansible.builtin.include_tasks:
     file: manage_user.yml
 
-- name: Include tasks 'manage_authorized_keys'
+- name: INCLUDE TASKS | 'manage_authorized_keys'
   loop: "{{ user_management_users }}"
   ansible.builtin.include_tasks:
     file: manage_authorized_keys.yml
 
-- name: Include tasks 'manage_sudoers.yml' for groups
+- name: INCLUDE TASKS | 'manage_sudoers.yml' for groups
   loop: "{{ user_management_sudoers_groups }}"
   when:
     - user_management_install_sudo
@@ -50,7 +50,7 @@
   ansible.builtin.include_tasks:
     file: manage_sudoers.yml
 
-- name: Include tasks 'manage_sudoers.yml' for users
+- name: INCLUDE TASKS | 'manage_sudoers.yml' for users
   loop: "{{ user_management_sudoers_users }}"
   when:
     - user_management_install_sudo

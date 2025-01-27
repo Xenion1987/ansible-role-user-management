@@ -14,6 +14,7 @@ user_management_users:
   - name: user_management_john.doe
     absolute_home_path: null
     custom_ssh_from: []
+    gecos: John Doe,Room 123,212-555-0000,212-555-3456,john.doe@world.org
     groups_append: false
     home_create: true
     home_move: false

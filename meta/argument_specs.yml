@@ -190,6 +190,13 @@ argument_specs:
             # elements: str
             required: false
             type: list
+          gecos:
+            default: null
+            description:
+              - "Optionally sets the description (aka GECOS) of user account:"
+              - "Full Name, Room Number, Work Phone, Home Phone, Other"
+            required: false
+            type: str
           groups_append:
             choices:
               - false

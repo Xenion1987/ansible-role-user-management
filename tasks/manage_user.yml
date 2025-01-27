@@ -1,8 +1,9 @@
 ---
-- name: "Manage user {{ item.name }}"
+- name: "USER | Manage: {{ item.name }}"
   ansible.builtin.user:
     # Use user_management_users.groups_append if defined, else append secondary groups if user_management_users.secondary_groups are defined
     append: "{{ item.groups_append | default(user_management_default_secondary_groups_append) if item.secondary_groups | default(user_management_default_secondary_groups) else omit }}"
+    comment: "{{ item.gecos | default(omit) }}"
     # Use user_management_users.home_create if set, else set 'true'
     create_home: "{{ item.home_create | default(true) }}"
     # This only affects 'state=absent', it forces removal of the user and associated directories on supported platforms.
