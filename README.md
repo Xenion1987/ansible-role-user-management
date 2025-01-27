@@ -42,6 +42,7 @@ main
 | `user_management_users` | `list` | `false` | | `[]` | List of users to be managed |
 | `user_management_users.absolute_home_path` | `str` | `false` | | | Custom `$HOME` root path |
 | `user_management_users.custom_ssh_from` | `list` | `false` | | `[]` | `from=""` value added to `authorized_keys` if user <br />has `user_management_users.ssh_public_keys` defined. <br />If `user_management_default_ssh_from` or `custom_ssh_from` is <br />defined and not set to `'*'`, all values will be concatenated. |
+| `user_management_users.gecos` | `str` | `false` | | `None` | Optionally sets the description (aka GECOS) of user account: <br />Full Name, Room Number, Work Phone, Home Phone, Other |
 | `user_management_users.groups_append` | `bool` | `false` | `false`, `true` | `false` | If `true`, add the user to the groups specified in groups. <br />If `false`, user will only be added to the groups specified in <br />`secondary_groups`, removing them from all other groups. |
 | `user_management_users.home_create` | `bool` | `false` | `false`, `true` | `true` | Unless set to false, a home directory will be created for the <br />user when the account is created or if the home directory does <br />not exist. |
 | `user_management_users.home_move` | `bool` | `false` | `false`, `true` | `false` | If set to `true` when used with `home:`, attempt to move <br />the user's old home directory to the specified directory <br />if it isn't already there and the old home exists. |
