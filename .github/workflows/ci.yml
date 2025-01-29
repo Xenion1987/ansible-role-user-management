@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: "user-management"
+    working-directory: "user_management"
 
 jobs:
   ansible-lint:
@@ -17,7 +17,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
-          path: "user-management"
+          path: "user_management"
 
       - name: Set up Python 3.
         uses: actions/setup-python@v5
@@ -42,7 +42,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
         with:
-          path: "user-management"
+          path: "user_management"
 
       - name: Set up Python 3.
         uses: actions/setup-python@v5

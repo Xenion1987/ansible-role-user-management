@@ -4,20 +4,30 @@ argument_specs:
     short_description: Main entry point for the user-management role
     options:
       user_management_default_home_root:
-        default: "/home"
+        default: null
         description:
-          - Custom default `$HOME` root path
+          - Custom default `$HOME` root path. Omitted if `null`.
         required: false
         type: str
+      user_management_default_home_move:
+        choices:
+          - false
+          - true
+        default: false
+        description:
+          - If set to `true` when used with `home`, attempt to move the user's old home directory to the specified directory if it isn't there already and the old home exists.
+        # elements: str
+        required: false
+        type: bool
       user_management_default_primary_group:
         description:
-          - Custom default primary user group
+          - Custom default primary user group. Omitted if `null`.
         required: false
         type: str
       user_management_default_secondary_groups:
         default: []
         description:
-          - Custom default secondary user groups
+          - Custom default secondary user groups. Omitted if empty.
         # elements: str
         required: false
         type: list
@@ -28,21 +38,21 @@ argument_specs:
         default: false
         description:
           - If `true`, add the user to the groups specified in `groups`.
-          - If `false`, user will only be added to the groups specified in `groups`, removing them from all other groups.
+          - If `false`, user will only be added to the groups specified
+          - in `groups`, removing them from all other groups.
         # elements: str
         required: false
         type: bool
       user_management_default_shell:
-        default: /bin/bash
+        default: null
         description:
-          - Default user's shell
+          - Default user's shell. Omitted if `null`.
         required: false
         type: str
       user_management_default_ssh_from:
         default: ["*"]
         description:
-          - Default, global `from=""` value added to `authorized_keys` for each
-          - user having `user_management_users.ssh_public_keys` defined
+          - Default, global `from=""` value added to `authorized_keys` for each user having `user_management_users.ssh_public_keys` defined
         # elements: str
         required: false
         type: list
@@ -52,7 +62,7 @@ argument_specs:
           - true
         default: true
         description:
-          - Installs `sudo` if set to `true`
+          - Installs `sudo` if set to `true`.
         required: false
         type: bool
       user_management_manage_sudoers_groups:
@@ -61,7 +71,7 @@ argument_specs:
           - true
         default: false
         description:
-          - Enable or disable sudoers management for groups
+          - Enable or disable sudoers management for groups.
         required: false
         type: bool
       user_management_manage_sudoers_users:
@@ -70,13 +80,13 @@ argument_specs:
           - true
         default: false
         description:
-          - Enable or disable sudoers management for users
+          - Enable or disable sudoers management for users.
         required: false
         type: bool
       user_management_sudoers_groups:
         default: []
         description:
-          - A list of sudoers configurations for groups
+          - A list of sudoers configurations for groups.
         # elements: dict
         required: false
         type: list
@@ -99,7 +109,7 @@ argument_specs:
           name:
             default: user_management_mygroupname
             description:
-              - The name of the sudoers rule
+              - The name of the sudoers rule.
             required: true
             type: str
           nopassword:
@@ -108,7 +118,7 @@ argument_specs:
               - true
             default: false
             description:
-              - Whether a password will be required to run the `sudo`'d command
+              - Whether a password will be required to run the `sudo`'d command.
             required: false
             type: bool
           state:
@@ -117,13 +127,13 @@ argument_specs:
               - "present"
             default: "present"
             description:
-              - Whether the rule should exist or not
+              - Whether the rule should exist or not.
             required: true
             type: str
       user_management_sudoers_users:
         default: []
         description:
-          - A list of sudoers configurations for users
+          - A list of sudoers configurations for users.
         # elements: dict
         required: false
         type: list
@@ -140,7 +150,7 @@ argument_specs:
           name:
             default: user_management_john.doe
             description:
-              - The name of the sudoers rule
+              - The name of the sudoers rule.
             required: true
             type: str
           nopassword:
@@ -149,7 +159,7 @@ argument_specs:
               - true
             default: false
             description:
-              - Whether a password will be required to run the `sudo`'d command
+              - Whether a password will be required to run the `sudo`'d command.
             required: false
             type: bool
           state:
@@ -158,7 +168,7 @@ argument_specs:
               - "present"
             default: "present"
             description:
-              - Whether the rule should exist or not
+              - Whether the rule should exist or not.
             required: true
             type: str
           user:
@@ -170,23 +180,21 @@ argument_specs:
       user_management_users:
         default: []
         description:
-          - List of users to be managed
+          - List of users to be managed.
         # elements: dict
         required: false
         type: list
         options:
           absolute_home_path:
             description:
-              - Custom `$HOME` root path
+              - Custom `$HOME` root path. Must be specified as absolute path.
             required: false
             type: str
           custom_ssh_from:
             default: []
             description:
-              - '`from=""` value added to `authorized_keys` if user'
-              - has `user_management_users.ssh_public_keys` defined.
-              - If `user_management_default_ssh_from` or `custom_ssh_from` is
-              - defined and not set to `'*'`, all values will be concatenated.
+              - '`from=""` value added to `authorized_keys` if user has `user_management_users.ssh_public_keys` defined.'
+              - If `user_management_default_ssh_from` or `custom_ssh_from` is defined and not set to `'*'`, all values will be concatenated.
             # elements: str
             required: false
             type: list
@@ -204,8 +212,7 @@ argument_specs:
             default: false
             description:
               - If `true`, add the user to the groups specified in groups.
-              - If `false`, user will only be added to the groups specified in
-              - "`secondary_groups`, removing them from all other groups."
+              - If `false`, user will only be added to the groups specified in `secondary_groups`, removing them from all other groups.
             required: false
             type: bool
           home_create:
@@ -214,9 +221,7 @@ argument_specs:
               - true
             default: true
             description:
-              - Unless set to false, a home directory will be created for the
-              - user when the account is created or if the home directory does
-              - not exist.
+              - Unless set to false, a home directory will be created for the user when the account is created or if the home directory does not exist.
             required: false
             type: bool
           home_move:
@@ -225,18 +230,25 @@ argument_specs:
               - true
             default: false
             description:
-              - If set to `true` when used with `home:`, attempt to move
-              - the user's old home directory to the specified directory
-              - if it isn't already there and the old home exists.
+              - If set to `true` when used with `home:`, attempt to move the user's old home directory to the specified directory if it isn't already there and the old home exists.
             required: false
             type: bool
           name:
             default: user_management_john.doe
             description:
-              - User's Linux login name
+              - User's Linux login name.
             required: true
             type: str
+          password:
+            default: null
+            description:
+              - If provided, set the user's password to the provided encrypted hash password. To create an account with a locked/disabled password, set this to `!` or `*`.
+              - "How to generate encrypted passwords:"
+              - "[Ansible Documentation](https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module)"
+            required: false
+            type: str
           primary_group:
+            default: user_management_users.name
             description:
               - Optionally sets the user's primary group (takes a group name).
             required: false
@@ -247,21 +259,20 @@ argument_specs:
               - List of groups user will be added to.
               - By default, the user is removed from all other groups.
               - Configure `groups_append` to modify this.
-              - When set to an empty string `''`, the user is removed from all
-              - groups except the primary group.
+              - When set to an empty string `''`, the user is removed from all groups except the primary group.
             # elements: str
             required: false
             type: list
           shell:
             default: user_management_default_shell
             description:
-              - Overwrites 'user_management_default_shell'
+              - Overwrites 'user_management_default_shell'.
             required: false
             type: str
           ssh_public_keys:
             default: []
             description:
-              - The SSH public key(s), as a list or (since Ansible 1.9) url
+              - The SSH public key(s), as a list or (since Ansible 1.9) url.
             required: false
             type: list
           state:
@@ -270,8 +281,7 @@ argument_specs:
               - "present"
             default: "present"
             description:
-              - Whether the account should exist or not,
-              - taking action if the state is different from what is stated.
+              - Whether the account should exist or not, taking action if the state is different from what is stated.
             required: true
             type: str
           userdel_force:
@@ -281,8 +291,7 @@ argument_specs:
               - true
             description:
               - This only affects `state=absent`.
-              - It forces removal of the user and associated directories
-              - on supported platforms.
+              - It forces removal of the user and associated directories on supported platforms.
             required: false
             type: bool
           userdel_remove:
@@ -292,7 +301,7 @@ argument_specs:
             default: false
             description:
               - This only affects `state=absent`.
-              - it attempts to remove directories associated with the user.
+              - It attempts to remove directories associated with the user.
             required: false
             type: bool
 
@@ -302,7 +311,7 @@ argument_specs:
       item:
         default: []
         description:
-          - List of users to be managed
+          - List of users to be managed.
         # elements: dict
         required: false
         type: list
@@ -310,22 +319,20 @@ argument_specs:
           custom_ssh_from:
             default: []
             description:
-              - '`from=""` value added to `authorized_keys` if user'
-              - has `user_management_users.ssh_public_keys` defined.
-              - If `user_management_default_ssh_from` or `custom_ssh_from` is
-              - defined and not set to `'*'`, all values will be concatenated.
+              - '`from=""` value added to `authorized_keys` if user has `user_management_users.ssh_public_keys` defined.'
+              - If `user_management_default_ssh_from` or `custom_ssh_from` is defined and not set to `'*'`, all values will be concatenated.
             # elements: str
             required: false
             type: list
           name:
             default: user_management_john.doe
             description:
-              - User's Linux login name
+              - User's Linux login name.
             required: true
             type: str
           ssh_public_keys:
             description:
-              - A list of the SSH public key(s), as a string or (since Ansible 1.9) url
+              - A list of the SSH public key(s), as a string or (since Ansible 1.9) url.
             required: false
             type: list
           state:
@@ -334,7 +341,6 @@ argument_specs:
               - "present"
             default: "present"
             description:
-              - Whether the account should exist or not,
-              - taking action if the state is different from what is stated.
+              - Whether the account should exist or not, taking action if the state is different from what is stated.
             required: true
             type: str

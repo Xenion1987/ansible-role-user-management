@@ -1,6 +1,7 @@
 ---
-user_management_default_home_root: /home
-user_management_default_shell: /bin/bash
+user_management_default_home_root: null
+user_management_default_home_move: false
+user_management_default_shell: null
 user_management_install_sudo: true
 
 user_management_default_primary_group: null
@@ -16,8 +17,10 @@ user_management_users:
     custom_ssh_from: []
     gecos: John Doe,Room 123,212-555-0000,212-555-3456,john.doe@world.org
     groups_append: false
-    home_create: true
+    home_create: false
     home_move: false
+    # password: 'mypassword' sha512 encrypted
+    password: $6$rounds=656000$hUyQQf65j3czoiSV$I1Vk3KiUX8VyE0crWx2GeWsrBA1F8nPw.3vtuVIXcp5P5DhybLGGe20n43arYGm5ayr4zrmIgaals2KV98SZx/
     primary_group: null
     secondary_groups: []
     ssh_public_keys:

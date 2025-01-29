@@ -4,3 +4,8 @@ skip_list:
   - schema[meta]
   - yaml[line-length]
   - name[template]
+
+exclude_paths:
+  - .git/
+  - .github/
+  - venv/
