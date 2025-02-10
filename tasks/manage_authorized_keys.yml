@@ -1,9 +1,8 @@
 ---
-- name: "GETENT | {{ item.name }}"
-  when: item.state == "present"
+- name: "GETENT | passwd"
+  run_once: true
   ansible.builtin.getent:
     database: passwd
-    key: "{{ item.name }}"
 
 - name: "FILE | Ensure '.ssh' directory exists: {{ item.name }}"
   when: item.state == "present"
@@ -17,7 +16,7 @@
 - name: "TEMPLATE | Manage authorized key(s): {{ item.name }}"
   when:
     - item.state == "present"
-    - item.ssh_public_keys is defined
+    - item.ssh_public_keys is defined and item.ssh_public_keys
   ansible.builtin.template:
     src: authorized_keys.j2
     dest: "{{ ansible_facts.getent_passwd[item.name][4] }}/.ssh/authorized_keys"
