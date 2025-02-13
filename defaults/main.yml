@@ -8,8 +8,9 @@ user_management_default_primary_group: null
 user_management_default_secondary_groups: []
 user_management_default_secondary_groups_append: false
 
-user_management_default_ssh_from:
-  - "*"
+user_management_default_ssh_from: []
+user_management_group_ssh_from: []
+user_management_host_ssh_from: []
 
 user_management_users:
   - name: user_management_john.doe
