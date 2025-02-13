@@ -49,6 +49,13 @@ argument_specs:
           - Default user's shell. Omitted if `null`.
         required: false
         type: str
+      user_management_default_ssh_from:
+        default: []
+        description:
+          - Default, global `from=""` value added to `authorized_keys` for each user having `user_management_users.ssh_public_keys` defined
+        # elements: str
+        required: false
+        type: list
       user_management_group_ssh_from:
         default: []
         description:
@@ -60,13 +67,6 @@ argument_specs:
         default: []
         description:
           - '`host_vars` specific `from=""` value added to `authorized_keys` for each user having `user_management_users.ssh_public_keys` defined'
-        # elements: str
-        required: false
-        type: list
-      user_management_default_ssh_from:
-        default: []
-        description:
-          - Default, global `from=""` value added to `authorized_keys` for each user having `user_management_users.ssh_public_keys` defined
         # elements: str
         required: false
         type: list
