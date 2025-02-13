@@ -1,10 +1,4 @@
 ---
-- name: "GETENT | {{ item.name }}"
-  when: item.state == "present"
-  ansible.builtin.getent:
-    database: passwd
-    key: "{{ item.name }}"
-
 - name: "FILE | Ensure '.ssh' directory exists: {{ item.name }}"
   when: item.state == "present"
   ansible.builtin.file:

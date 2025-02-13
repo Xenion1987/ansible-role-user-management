@@ -37,10 +37,15 @@
   ansible.builtin.include_tasks:
     file: manage_user.yml
 
-- name: INCLUDE TASKS | 'manage_authorized_keys'
-  loop: "{{ user_management_users }}"
-  ansible.builtin.include_tasks:
-    file: manage_authorized_keys.yml
+- name: BLOCK | Manage authorized_keys files
+  block:
+    - name: "GETENT | passwd"
+      ansible.builtin.getent:
+        database: passwd
+    - name: INCLUDE TASKS | 'manage_authorized_keys'
+      loop: "{{ user_management_users }}"
+      ansible.builtin.include_tasks:
+        file: manage_authorized_keys.yml
 
 - name: INCLUDE TASKS | 'manage_sudoers.yml' for groups
   loop: "{{ user_management_sudoers_groups }}"
