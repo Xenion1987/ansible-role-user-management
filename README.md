@@ -24,7 +24,9 @@ main
 | `user_management_default_secondary_groups` | `list` | `false` | | `[]` | Custom default secondary user groups. Omitted if empty. |
 | `user_management_default_secondary_groups_append` | `bool` | `false` | `false`, `true` | `false` | If `true`, add the user to the groups specified in `groups`. <br />If `false`, user will only be added to the groups specified <br />in `groups`, removing them from all other groups. |
 | `user_management_default_shell` | `str` | `false` | | `None` | Default user's shell. Omitted if `null`. |
-| `user_management_default_ssh_from` | `list` | `false` | | `['*']` | Default, global `from=""` value added to `authorized_keys` for each user having `user_management_users.ssh_public_keys` defined |
+| `user_management_group_ssh_from` | `list` | `false` | | `[]` | `group_vars` specific `from=""` value added to `authorized_keys` for each user having `user_management_users.ssh_public_keys` defined |
+| `user_management_host_ssh_from` | `list` | `false` | | `[]` | `host_vars` specific `from=""` value added to `authorized_keys` for each user having `user_management_users.ssh_public_keys` defined |
+| `user_management_default_ssh_from` | `list` | `false` | | `[]` | Default, global `from=""` value added to `authorized_keys` for each user having `user_management_users.ssh_public_keys` defined |
 | `user_management_install_sudo` | `bool` | `false` | `false`, `true` | `true` | Installs `sudo` if set to `true`. |
 | `user_management_manage_sudoers_groups` | `bool` | `false` | `false`, `true` | `false` | Enable or disable sudoers management for groups. |
 | `user_management_manage_sudoers_users` | `bool` | `false` | `false`, `true` | `false` | Enable or disable sudoers management for users. |
@@ -63,7 +65,7 @@ manage_authorized_keys
 | Variable | Type | Required | Choices | Default | Description |
 | --- | --- | --- | --- | --- | --- |
 | `item` | `list` | `false` | | `[]` | List of users to be managed. |
-| `item.custom_ssh_from` | `list` | `false` | | `[]` | `from=""` value added to `authorized_keys` if user has `user_management_users.ssh_public_keys` defined. <br />If `user_management_default_ssh_from` or `custom_ssh_from` is defined and not set to `'*'`, all values will be concatenated. |
+| `item.custom_ssh_from` | `list` | `false` | | `[]` | `from=""` value added to `authorized_keys` if user has `user_management_users.ssh_public_keys` defined. <br />All values from `user_management_default_ssh_from`, `user_management_group_ssh_from` and `user_management_host_ssh_from` will be concatenated. |
 | `item.name` | `str` | `true` | | `user_management_john.doe` | User's Linux login name. |
 | `item.ssh_public_keys` | `list` | `false` | | | A list of the SSH public key(s), as a string or (since Ansible 1.9) url. |
 | `item.state` | `str` | `true` | `absent`, `present` | `present` | Whether the account should exist or not, taking action if the state is different from what is stated. |
