@@ -1,10 +1,11 @@
 {%- for ssh_key in item.ssh_public_keys -%}
 {%- set from_options_global = user_management_default_ssh_from -%}
-{%- set from_options_custom_host = host_vars_ssh_from | default([]) -%}
+{%- set from_options_group_vars = user_management_group_ssh_from | default([]) -%}
+{%- set from_options_host_vars = user_management_host_ssh_from | default([]) -%}
 {%- set from_options_custom_item = item.custom_ssh_from | default([]) -%}
-{%- set from_options_custom = from_options_custom_host + from_options_custom_item | default([]) -%}
+{%- set from_options_custom = from_options_group_vars + from_options_host_vars+ from_options_custom_item | default([]) -%}
 {%- set from_options = from_options_global + from_options_custom | default([]) -%}
 {%- if ssh_key is defined -%}
-from="{% if from_options %}{{ from_options | join(',') }}{% else %}*{% endif %}" {{ ssh_key }}
+{% if from_options %}from="{{ from_options | join(',') }}" {% endif %}{{ ssh_key }}
 {% endif %}
 {% endfor %}
