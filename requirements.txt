@@ -4,3 +4,4 @@ ansible-core>=2.11
 ansible-lint
 jinja2
 passlib
+pre-commit
