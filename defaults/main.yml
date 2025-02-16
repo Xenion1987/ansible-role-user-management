@@ -2,7 +2,6 @@
 user_management_default_home_root: null
 user_management_default_home_move: false
 user_management_default_shell: null
-user_management_install_sudo: true
 
 user_management_default_primary_group: null
 user_management_default_secondary_groups: []
@@ -29,21 +28,3 @@ user_management_users:
     state: absent
     userdel_force: false
     userdel_remove: false
-
-user_management_manage_sudoers_groups: false
-user_management_sudoers_groups:
-  - name: user_management_mygroupname
-    group: user_management_mygroupname
-    commands:
-      - ALL
-    nopassword: false
-    state: absent
-
-user_management_manage_sudoers_users: false
-user_management_sudoers_users:
-  - name: user_management_john.doe
-    user: user_management_john.doe
-    commands:
-      - ALL
-    nopassword: false
-    state: absent

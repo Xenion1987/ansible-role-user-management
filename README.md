@@ -1,7 +1,7 @@
  Ansible role: user_management
 ===
 
-Manage users, their SSH public key enrollment and sudoers files via Ansible on Linux systems.
+Manage users and their SSH public key enrollment via Ansible on Linux systems.
 
 Requirements
 ---
@@ -27,21 +27,6 @@ main
 | `user_management_default_ssh_from` | `list` | `false` | | `[]` | Default, global `from=""` value added to `authorized_keys` for each user having `user_management_users.ssh_public_keys` defined |
 | `user_management_group_ssh_from` | `list` | `false` | | `[]` | `group_vars` specific `from=""` value added to `authorized_keys` for each user having `user_management_users.ssh_public_keys` defined |
 | `user_management_host_ssh_from` | `list` | `false` | | `[]` | `host_vars` specific `from=""` value added to `authorized_keys` for each user having `user_management_users.ssh_public_keys` defined |
-| `user_management_install_sudo` | `bool` | `false` | `false`, `true` | `true` | Installs `sudo` if set to `true`. |
-| `user_management_manage_sudoers_groups` | `bool` | `false` | `false`, `true` | `false` | Enable or disable sudoers management for groups. |
-| `user_management_manage_sudoers_users` | `bool` | `false` | `false`, `true` | `false` | Enable or disable sudoers management for users. |
-| `user_management_sudoers_groups` | `list` | `false` | | `[]` | A list of sudoers configurations for groups. |
-| `user_management_sudoers_groups.commands` | `list` | `false` | | `[]` | The commands allowed by the sudoers rule. <br />Multiple can be added by passing a list of commands. <br />Use `ALL` for all commands. |
-| `user_management_sudoers_groups.group` | `str` | `false` | | | The name of the group for the sudoers rule. <br />This option cannot be used in conjunction with `user`. |
-| `user_management_sudoers_groups.name` | `str` | `true` | | `user_management_mygroupname` | The name of the sudoers rule. |
-| `user_management_sudoers_groups.nopassword` | `bool` | `false` | `false`, `true` | `false` | Whether a password will be required to run the `sudo`'d command. |
-| `user_management_sudoers_groups.state` | `str` | `true` | `absent`, `present` | `present` | Whether the rule should exist or not. |
-| `user_management_sudoers_users` | `list` | `false` | | `[]` | A list of sudoers configurations for users. |
-| `user_management_sudoers_users.commands` | `list` | `false` | | `[]` | The commands allowed by the sudoers rule. <br />Multiple can be added by passing a list of commands. <br />Use `ALL` for all commands. |
-| `user_management_sudoers_users.name` | `str` | `true` | | `user_management_john.doe` | The name of the sudoers rule. |
-| `user_management_sudoers_users.nopassword` | `bool` | `false` | `false`, `true` | `false` | Whether a password will be required to run the `sudo`'d command. |
-| `user_management_sudoers_users.state` | `str` | `true` | `absent`, `present` | `present` | Whether the rule should exist or not. |
-| `user_management_sudoers_users.user` | `str` | `false` | | | The name of the user for the sudoers rule. <br />This option cannot be used in conjunction with `group`. |
 | `user_management_users` | `list` | `false` | | `[]` | List of users to be managed. |
 | `user_management_users.absolute_home_path` | `str` | `false` | | | Custom `$HOME` root path. Must be specified as absolute path. |
 | `user_management_users.custom_ssh_from` | `list` | `false` | | `[]` | `from=""` value added to `authorized_keys` if user has `user_management_users.ssh_public_keys` defined. <br />If `user_management_default_ssh_from` or `custom_ssh_from` is defined and not set to `'*'`, all values will be concatenated. |

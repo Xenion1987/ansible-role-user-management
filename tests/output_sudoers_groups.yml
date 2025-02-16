@@ -1,8 +1,0 @@
----
-- name: "Get 'sudoers' file from group {{ item.name }}"
-  changed_when: false
-  register: output_sudoers_group
-  ansible.builtin.command: "cat /etc/sudoers.d/{{ item.name }}"
-- name: "Print 'sudoers' file from group {{ item.name }}"
-  ansible.builtin.debug:
-    msg: "{{ output_sudoers_group.stdout }}"

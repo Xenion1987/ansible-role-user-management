@@ -1,8 +1,0 @@
----
-- name: "Get 'sudoers' file from user {{ item.name }}"
-  changed_when: false
-  register: output_sudoers_user
-  ansible.builtin.command: "cat /etc/sudoers.d/{{ item.name }}"
-- name: "Print 'sudoers' file from user {{ item.name }}"
-  ansible.builtin.debug:
-    msg: "{{ output_sudoers_user.stdout }}"
