@@ -1,12 +1,6 @@
 ---
 # tasks file for roles/user_management
 
-- name: "PACKAGE | sudo"
-  when: user_management_install_sudo
-  ansible.builtin.package:
-    name: sudo
-    state: present
-
 - name: "GROUP | Ensure default primary group is created"
   when: user_management_default_primary_group is defined and user_management_default_primary_group
   ansible.builtin.group:
@@ -46,19 +40,3 @@
       loop: "{{ user_management_users }}"
       ansible.builtin.include_tasks:
         file: manage_authorized_keys.yml
-
-- name: INCLUDE TASKS | 'manage_sudoers.yml' for groups
-  loop: "{{ user_management_sudoers_groups }}"
-  when:
-    - user_management_install_sudo
-    - user_management_manage_sudoers_groups
-  ansible.builtin.include_tasks:
-    file: manage_sudoers.yml
-
-- name: INCLUDE TASKS | 'manage_sudoers.yml' for users
-  loop: "{{ user_management_sudoers_users }}"
-  when:
-    - user_management_install_sudo
-    - user_management_manage_sudoers_users
-  ansible.builtin.include_tasks:
-    file: manage_sudoers.yml

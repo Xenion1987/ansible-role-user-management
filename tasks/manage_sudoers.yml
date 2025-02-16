@@ -1,9 +1,0 @@
----
-- name: "SUDOERS | Manage: {{ item.name }}"
-  community.general.sudoers:
-    commands: "{{ item.commands | default([]) }}"
-    group: "{{ item.group | default(omit) }}"
-    name: "{{ item.name }}"
-    nopassword: "{{ item.nopassword | default(false) }}"
-    state: "{{ item.state }}"
-    user: "{{ item.user | default(omit) }}"
