@@ -1,6 +1,9 @@
  Ansible role: user_management
 ===
 
+[![CI](https://github.com/Xenion1987/ansible-role-user-management/actions/workflows/ci.yml/badge.svg)](https://github.com/Xenion1987/ansible-role-user-management/actions/workflows/ci.yml)
+[![Ansible Galaxy downloads](https://img.shields.io/ansible/role/d/Xenion1987/user_management?label=Galaxy%20downloads&logo=ansible&color=%23096598)](https://galaxy.ansible.com/ui/standalone/roles/Xenion1987/user_management)
+
 Manage users and their SSH public key enrollment via Ansible on Linux systems.
 
 Requirements
