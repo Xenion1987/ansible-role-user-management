@@ -1,17 +1,18 @@
+---
 name: CI Pipeline
 
 on:
+  pull_request:
   push:
     branches:
       - main
-  pull_request:
 
 defaults:
   run:
     working-directory: "user_management"
 
 jobs:
-  ansible-lint:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -24,20 +25,20 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Install role requirements
-        run: |
-          [ -s requirements.txt ] && pip install -r requirements.txt
-          [ -s requirements.yml ] && ansible-galaxy collection install -r requirements.yml
+      - name: Install test dependencies
+        run: pip3 install -q yamllint
 
-      - name: Install ansible-lint
-        run: |
-          pip install ansible-lint
+      - name: Run tests
+        run: yamllint .
 
-      - name: Run ansible-lint
-        run: ansible-lint
-
-  ansible-test:
+  test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        distro:
+          - "debian:12"
+          - "rockylinux:9"
+          - "ubuntu:24.04"
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
@@ -49,14 +50,12 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Install role requirements
-        run: |
-          [ -s requirements.txt ] && pip install -r requirements.txt
-          [ -s requirements.yml ] && ansible-galaxy collection install -r requirements.yml
+      - name: Install test dependencies
+        run: pip3 install ansible molecule molecule-plugins[docker] docker passlib jinja2
 
-      - name: Install Ansible
-        run: |
-          pip install ansible
-
-      - name: Run Ansible Playbook
-        run: ansible-playbook tests/test.yml
+      - name: Run tests
+        run: molecule test
+        env:
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
+          MOLECULE_DISTRO: ${{ matrix.distro }}

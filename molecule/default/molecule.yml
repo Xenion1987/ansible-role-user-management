@@ -1,0 +1,10 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance
+    image: "${MOLECULE_DISTRO:-debian:12}"
+    pre_build_image: true
+    privileged: true

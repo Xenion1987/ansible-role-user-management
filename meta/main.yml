@@ -11,6 +11,7 @@ galaxy_info:
   company: "Access-InTech"
   license: "BSD, MIT"
   min_ansible_version: "2.11"
+  namespace: "xenion1987"
   platforms:
     - name: Debian
       versions:
