@@ -1,6 +1,6 @@
 ---
 - name: "FILE | Ensure '.ssh' directory exists: {{ item.name }}"
-  when: item.state == "present"
+  when: item.state | d('present') == "present"
   ansible.builtin.file:
     state: directory
     path: "{{ ansible_facts.getent_passwd[item.name][4] }}/.ssh"
@@ -10,7 +10,7 @@
 
 - name: "TEMPLATE | Manage authorized key(s): {{ item.name }}"
   when:
-    - item.state == "present"
+    - item.state | d('present') == "present"
     - item.ssh_public_keys is defined
   ansible.builtin.template:
     src: authorized_keys.j2

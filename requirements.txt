@@ -1,7 +1,12 @@
 # https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html
 ansible>=3.0.0
 ansible-core>=2.11
-ansible-lint
 jinja2
 passlib
-pre-commit
+
+# For testing and developing
+# pre-commit
+# ansible-lint
+# molecule
+# molecule-plugins[docker]
+# docker

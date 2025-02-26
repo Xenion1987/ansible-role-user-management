@@ -22,11 +22,11 @@
     remove: "{{ item.userdel_remove | default(false) }}"
     # Use user_management_users.shell if defined, else use default shell as defined in defaults file
     shell: "{{ item.shell if item.shell is defined and item.shell else user_management_default_shell if user_management_default_shell is defined and user_management_default_shell else omit }}"
-    state: "{{ item.state }}"
+    state: "{{ item.state | d('present') }}"
 
 - name: "USER | Manage password: {{ item.name }}"
   when:
-    - item.state == "present"
+    - item.state | d("present") == "present"
     - item.password is defined and item.password
   ansible.builtin.user:
     name: "{{ item.name }}"
