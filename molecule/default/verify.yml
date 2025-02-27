@@ -1,0 +1,52 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars:
+    test_user: molecule_test
+
+  tasks:
+    - name: "GETENT | PASSWD | Ensure user exists: {{ test_user }}"
+      ansible.builtin.getent:
+        database: passwd
+        key: "{{ test_user }}"
+    - name: ASSERT | User's home
+      ansible.builtin.assert:
+        that:
+          - ansible_facts.getent_passwd[test_user][4] == '/opt/' + test_user
+    - name: ASSERT | User's GECOS
+      ansible.builtin.assert:
+        that:
+          - ansible_facts.getent_passwd[test_user][3] == 'Mole Cule,Room 123,212-555-0000,212-555-3456,mole.cule@azbycx.tld'
+    - name: SHELL | Test user's password
+      changed_when: false
+      register: password_test
+      ansible.builtin.shell:
+        cmd: |
+          set -e
+          set -o pipefail
+          SHADOW=($(awk -F'$' '$0 ~ /{{ test_user }}/ {print $2,$3,$4}' /etc/shadow | sed 's/:.*//'))
+          HASH=$(openssl passwd -${SHADOW[0]} -salt ${SHADOW[1]} mypassword | awk -F'$' '{print $NF}')
+          if [[ "${SHADOW[2]}" == "${HASH}" ]]; then echo OK; else echo NOPE; exit 1; fi
+        executable: /bin/bash
+    - name: ASSERT | User's password passed
+      ansible.builtin.assert:
+        that:
+          - password_test.stdout == 'OK'
+    - name: "GETENT | GROUP | Get groups"
+      ansible.builtin.getent:
+        database: group
+    - name: ASSERT | User's groups
+      ansible.builtin.assert:
+        that:
+          - ansible_facts.getent_passwd[test_user][2] == ansible_facts.getent_group['molecule'][1]
+          - ansible_facts.getent_group['testing'][2] == test_user
+    - name: COMMAND | Get 'authorized_keys' value
+      changed_when: false
+      register: authorized_keys
+      ansible.builtin.command:
+        cmd: cat {{ ansible_facts.getent_passwd[test_user][4] }}/.ssh/authorized_keys
+    - name: ASSERT | Authorized Keys
+      ansible.builtin.assert:
+        that:
+          - authorized_keys.stdout_lines[0] == 'from="1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4" ssh-rsa AAAAB3NzakGUg/a4nViDJGhuFty+4yR8fWQ== ansible-role-user-management-1'
